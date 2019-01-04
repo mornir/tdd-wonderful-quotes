@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "test:e2e": "vue-cli-service test:e2e"
+    "test": "vue-cli-service test:e2e --mode development"
   },
   "dependencies": {
     "vue": "^2.5.21"
@@ -13,12 +13,8 @@
   "devDependencies": {
     "@vue/cli-plugin-e2e-cypress": "^3.2.0",
     "@vue/cli-service": "^3.2.0",
+    "tailwindcss": "^0.7.3",
     "vue-template-compiler": "^2.5.21"
-  },
-  "postcss": {
-    "plugins": {
-      "autoprefixer": {}
-    }
   },
   "browserslist": [
     "> 1%",

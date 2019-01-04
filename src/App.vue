@@ -1,28 +1,47 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app"
+       class="container mx-auto px-4">
+    <QuoteProgress :quotesAdded="quotes.length" />
+    <NewQuote @new-quote="addQuoteToList"
+              class="mb-3" />
+    <QuotesGrid :quotes="quotes"
+                @delete-quote="deleteQuote" />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import QuotesGrid from '@/components/QuotesGrid'
+import NewQuote from '@/components/NewQuote'
+import QuoteProgress from '@/components/QuoteProgress'
 
 export default {
   name: 'app',
+  data() {
+    return {
+      quotes: [
+        {
+          id: 1,
+          text: 'Just a quote to start with something!',
+        },
+      ],
+    }
+  },
+  methods: {
+    addQuoteToList(quote) {
+      this.quotes.push(quote)
+    },
+    deleteQuote(id) {
+      this.quotes = this.quotes.filter(quote => quote.id !== id)
+    },
+  },
   components: {
-    HelloWorld
-  }
+    QuotesGrid,
+    NewQuote,
+    QuoteProgress,
+  },
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+@import './assets/css/tailwind.css';
 </style>
