@@ -5,7 +5,7 @@
     <label for="quote-input"
            class="block font-semibold">Quote</label>
     <textarea type="text"
-              class="border w-full  max-w-sm"
+              class="border w-full block max-w-sm"
               rows="4"
               name="quote-input"
               v-model.trim="quote"

@@ -1,8 +1,9 @@
 <template>
   <div>
+    <p class="font-semibold max-w-lg mx-auto text-xl mb-2">Quotes Added <span class="text-grey-darker text-sm ml-2"> <span class="text-xl">{{quotesAdded}}</span> / 10</span></p>
     <progress :value="quotesAdded"
               class="w-full max-w-lg mx-auto block"
-              max="10">Quotes Added</progress>
+              max="10"></progress>
   </div>
 </template>
 

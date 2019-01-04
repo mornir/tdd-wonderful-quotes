@@ -3,7 +3,14 @@ describe('User', () => {
     cy.visit('/')
   })
 
-  it.only('can add new quotes', () => {
+  function addQuote(quote) {
+    cy.get('[data-cy="new-quote"]').type(quote)
+    cy.get('[data-cy="add-quote"]').click()
+  }
+
+  const getQuotes = () => cy.get('[data-cy="quotes-list"] li')
+
+  it('can add new quotes', () => {
     const quote = 'A room without books is like a body without a soul.'
     cy.get('[data-cy="new-quote"]')
       .type(quote)
@@ -11,7 +18,7 @@ describe('User', () => {
 
     cy.get('[data-cy="add-quote"]').click()
 
-    cy.get('[data-cy="quotes-list"] li')
+    getQuotes()
       .its('length')
       .should('eq', 2)
 
@@ -21,22 +28,42 @@ describe('User', () => {
   })
 
   it('cannot add empty quotes', () => {
-    cy.get('[data-cy="new-quote"]')
-      .type(' {enter}')
-      .should('be.empty')
+    addQuote('  ')
 
-    cy.get('[data-cy="quotes-list"] li')
+    getQuotes()
       .its('length')
       .should('eq', 1)
   })
 
+  it('trims quotes', () => {
+    const quote = 'test quote'
+    addQuote(` ${quote}  `)
+
+    // we use as explicit assertion here about the text instead of
+    // using 'contain' so we can specify the exact text of the element
+    // does not have any whitespace around it
+    getQuotes()
+      .eq(1)
+      .should('have.text', quote)
+  })
+
   it('can delete a quote by clicking on it', () => {
-    cy.get('[data-cy="quotes-list"] li')
+    getQuotes()
       .first()
       .click()
 
-    cy.get('[data-cy="quotes-list"] li').should('not.exist')
+    getQuotes().should('not.exist')
   })
 
-  /* it('cannot add more than 10 quotes'). */
+  it('cannot add more than 10 quotes', () => {
+    cy.get('[data-cy="alert-overload"]').should('not.be.visible')
+    let i = 0
+    while (i < 10) {
+      addQuote('TRALALALALA')
+      i++
+    }
+
+    getQuotes().should('have.length', 10)
+    cy.get('[data-cy="alert-overload"]').should('be.visible')
+  })
 })
